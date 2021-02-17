@@ -13,3 +13,4 @@ message Person {
     SocialFollowers social = 3;
 }
 
+option go_package = "github.com/TudorHulban/gRPC";
