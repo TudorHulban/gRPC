@@ -22,6 +22,7 @@ protoc --go_out=. *.proto
 ## Resources
 ```
 https://tutorialedge.net/golang/go-protocol-buffer-tutorial/
+https://tutorialedge.net/golang/go-grpc-beginners-tutorial/
 https://grpc.io/docs/languages/go/basics/
 https://developers.google.com/protocol-buffers
 ```
