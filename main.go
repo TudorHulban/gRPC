@@ -11,6 +11,10 @@ func main() {
 	elliot := &Person{
 		Name: "Elliot",
 		Age:  24,
+		Social: &SocialFollowers{
+			Youtube: 10,
+			Twitter: 20,
+		},
 	}
 
 	data, err := proto.Marshal(elliot)
