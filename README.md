@@ -15,8 +15,9 @@ go get github.com/golang/protobuf/proto
 ```
 
 ## Compilation
+Use the Makefile target or have fun with the below.
 ```
-protoc --go_out=. *.proto
+protoc --go_out=plugins=grpc:chat chat.proto
 ```
 
 ## Resources
