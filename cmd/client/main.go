@@ -24,7 +24,7 @@ func main() {
 	var wg sync.WaitGroup
 
 	c := chat.NewChatServiceClient(conn)
-	wg.Add(1)
+	wg.Add(1) // before the actual go routine call to prevent race conditions
 	go chatSend(&wg, "xxxxxx", c)
 
 	p := person.NewPersonServiceClient(conn)
