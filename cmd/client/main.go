@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"log"
+	"sync"
 
 	"github.com/TudorHulban/gRPC/cmd/client/chat"
 	"github.com/TudorHulban/gRPC/cmd/client/person"
@@ -20,24 +21,44 @@ func main() {
 	}
 	defer conn.Close()
 
+	var wg sync.WaitGroup
+
 	c := chat.NewChatServiceClient(conn)
-
-	resp1, err := c.SayHello(context.Background(), &chat.Message{Body: "Hi From Client!"})
-	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
-	}
-
-	log.Printf("Response from server: %s", resp1.Body)
+	wg.Add(1)
+	go chatSend(&wg, "xxxxxx", c)
 
 	p := person.NewPersonServiceClient(conn)
-
-	resp2, err := p.SendData(context.Background(), &person.PersonData{
+	wg.Add(1)
+	go personSend(&wg, person.PersonData{
 		Name: "John",
 		Age:  32,
-	})
+	}, p)
+
+	wg.Wait()
+}
+
+func chatSend(wg *sync.WaitGroup, msg string, c chat.ChatServiceClient) error {
+	defer wg.Done()
+
+	resp, err := c.SayHello(context.Background(), &chat.Message{Body: msg})
 	if err != nil {
-		log.Fatalf("Error when calling SendData: %s", err)
+		log.Fatalf("Error when calling chat: %s", err)
 	}
 
-	log.Printf("Response from server: %t", resp2.Valid)
+	log.Printf("Response from server: %s", resp.Body)
+
+	return nil
+}
+
+func personSend(wg *sync.WaitGroup, p person.PersonData, serv person.PersonServiceClient) error {
+	defer wg.Done()
+
+	resp, err := serv.SendData(context.Background(), &p)
+	if err != nil {
+		log.Fatalf("Error when calling person: %t", err)
+	}
+
+	log.Printf("Response from server: %t", resp.Valid)
+
+	return nil
 }
