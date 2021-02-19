@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package person;
+
+message PersonData {
+  string name = 1;
+  int32 age = 2;
+}
+
+message Results {
+  bool valid = 1;
+}
+
+service PersonService {
+  rpc SendData(PersonData) returns (Results) {}
+}
+
+
+// option go_package = "github.com/TudorHulban/gRPC";
