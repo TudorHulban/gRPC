@@ -7,6 +7,8 @@ import (
 	"net"
 
 	"github.com/TudorHulban/gRPC/cmd/server/chat"
+	"github.com/TudorHulban/gRPC/cmd/server/person"
+
 	"google.golang.org/grpc"
 )
 
@@ -19,9 +21,12 @@ func main() {
 	}
 
 	s := chat.Server{}
+	p := person.Server{}
+
 	grpcServer := grpc.NewServer()
 
 	chat.RegisterChatServiceServer(grpcServer, &s)
+	person.RegisterPersonServiceServer(grpcServer, &p)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)

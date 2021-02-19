@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/TudorHulban/gRPC/cmd/client/chat"
+	"github.com/TudorHulban/gRPC/cmd/client/person"
 	"google.golang.org/grpc"
 )
 
@@ -21,10 +22,22 @@ func main() {
 
 	c := chat.NewChatServiceClient(conn)
 
-	response, err := c.SayHello(context.Background(), &chat.Message{Body: "Hi From Client!"})
+	resp1, err := c.SayHello(context.Background(), &chat.Message{Body: "Hi From Client!"})
 	if err != nil {
 		log.Fatalf("Error when calling SayHello: %s", err)
 	}
 
-	log.Printf("Response from server: %s", response.Body)
+	log.Printf("Response from server: %s", resp1.Body)
+
+	p := person.NewPersonServiceClient(conn)
+
+	resp2, err := p.SendData(context.Background(), &person.PersonData{
+		Name: "John",
+		Age:  32,
+	})
+	if err != nil {
+		log.Fatalf("Error when calling SendData: %s", err)
+	}
+
+	log.Printf("Response from server: %t", resp2.Valid)
 }
