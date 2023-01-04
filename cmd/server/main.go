@@ -15,18 +15,18 @@ import (
 func main() {
 	log.Println("starting server ...")
 
-	lis, err := net.Listen("tcp", ":9000")
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+	lis, errListen := net.Listen("tcp", ":9000")
+	if errListen != nil {
+		log.Fatalf("failed to listen: %v", errListen)
 	}
 
-	s := chat.Server{}
-	p := person.Server{}
+	var serverChat chat.Server
+	var serverPerson person.Server
 
 	grpcServer := grpc.NewServer()
 
-	chat.RegisterChatServiceServer(grpcServer, &s)
-	person.RegisterPersonServiceServer(grpcServer, &p)
+	chat.RegisterChatServiceServer(grpcServer, &serverChat)
+	person.RegisterPersonServiceServer(grpcServer, &serverPerson)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
