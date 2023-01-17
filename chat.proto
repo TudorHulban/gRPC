@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package chat;
+option go_package = "./pb";
 
 message Message {
   string body = 1;
@@ -9,6 +9,3 @@ message Message {
 service ChatService {
   rpc SendMessage(Message) returns (Message) {}
 }
-
-
-// option go_package = "github.com/TudorHulban/gRPC";

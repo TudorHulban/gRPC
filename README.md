@@ -23,7 +23,10 @@ protoc --go_out=plugins=grpc:chat chat.proto
 ```
 
 ## Resources
-```
+
+```html
+https://grpc.io/docs/languages/go/quickstart/
+https://stackoverflow.com/questions/65079032/grpc-with-mustembedunimplemented-method
 https://tutorialedge.net/golang/go-protocol-buffer-tutorial/
 https://tutorialedge.net/golang/go-grpc-beginners-tutorial/
 https://grpc.io/docs/languages/go/basics/
